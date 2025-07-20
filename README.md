@@ -45,7 +45,7 @@ PDF → Base64 → Gemini Extraction → Document Chunks → Embeddings → Chro
 
 1. **Clone the repository**
    ```bash
-   git clone [https://github.com/Eddy-Emmanuel/RAG-Based-Query-Handling.git]
+   git clone [your-repo-link]
    cd healthcare-rag-assessment
    ```
 
@@ -213,3 +213,7 @@ This solution demonstrates:
 - **Production-ready code** with proper error handling and configuration management
 - **Domain expertise** in healthcare insurance through specialized prompting
 - **Scalable architecture** supporting easy extension and maintenance
+
+---
+
+**Submission Ready**: This repository contains a complete, runnable RAG system that can be deployed and tested immediately following the setup instructions above.
