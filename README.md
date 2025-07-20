@@ -135,7 +135,7 @@ Specialized prompt ensuring:
 **Input Query:**
 ```json
 {
-  "question": "What are the key differences between FlexiCare and PrimeCare deductibles?"
+  "user_query": "What are the key differences between FlexiCare and PrimeCare deductibles?"
 }
 ```
 
