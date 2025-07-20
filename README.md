@@ -34,7 +34,7 @@ PDF → Base64 → Gemini Extraction → Document Chunks → Embeddings → Chro
 ## 🚀 How to Run the Solution
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.11.9
 - OpenAI API Key
 - Google Gemini API Key
 - Jupyter Notebook
