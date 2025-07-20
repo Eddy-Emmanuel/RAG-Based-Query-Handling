@@ -1,6 +1,7 @@
 import sys
 import os
 from fastapi import APIRouter
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model.schema import RequestPayload, RequestResponse
 from utils.rag_utils import doc_retriever_chain
