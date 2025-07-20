@@ -1,6 +1,4 @@
-# Healthcare Insurance RAG Assessment
-
-**Assessment Submission**: Intelligent Healthcare Insurance Advisory System using RAG (Retrieval-Augmented Generation)
+# RAG-Based Query Handling Assessment
 
 ## 🎯 Assessment Overview
 
