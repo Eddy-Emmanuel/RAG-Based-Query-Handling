@@ -45,7 +45,7 @@ PDF → Base64 → Gemini Extraction → Document Chunks → Embeddings → Chro
 
 1. **Clone the repository**
    ```bash
-   git clone [your-repo-link]
+   git clone [https://github.com/Eddy-Emmanuel/RAG-Based-Query-Handling.git]
    cd healthcare-rag-assessment
    ```
 
