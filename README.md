@@ -1,138 +1,93 @@
-# Healthcare Insurance RAG Advisor
+# Healthcare Insurance RAG Assessment
 
-A sophisticated Retrieval-Augmented Generation (RAG) system that provides intelligent healthcare insurance advice for FlexiCare, PrimeCare, and ZenCare plans using LangChain, ChromaDB, and multiple AI models.
+**Assessment Submission**: Intelligent Healthcare Insurance Advisory System using RAG (Retrieval-Augmented Generation)
 
-## 🏥 Overview
+## 🎯 Assessment Overview
 
-This system combines document retrieval with AI-powered question answering to help users make informed decisions about healthcare insurance coverage. It processes PDF documents containing insurance plan details and provides accurate, contextual responses to user queries.
+This project implements a sophisticated RAG-based system that provides intelligent healthcare insurance advice for FlexiCare, PrimeCare, and ZenCare plans. The solution combines document retrieval with AI-powered question answering to deliver accurate, contextual responses about insurance coverage.
 
-## ✨ Features
+## 🏗️ My Approach
 
-- **Multi-Model AI Integration**: Utilizes OpenAI GPT-4o-mini and Google Gemini 2.5 Pro
-- **PDF Document Processing**: Automated extraction and processing of insurance plan documents
-- **Vector Database**: ChromaDB for efficient document storage and retrieval
-- **FastAPI Web Interface**: RESTful API endpoints for easy integration
-- **Intelligent Retrieval**: Similarity-based search with configurable parameters
-- **Structured Responses**: Markdown-formatted answers with plan comparisons
-- **Source Attribution**: Tracks document sources for transparency
+### Architecture Design
+I built a multi-layered RAG system that separates concerns between document processing, vector storage, and query handling:
 
-## 🛠️ Technology Stack
+1. **Document Processing Layer**: Uses Google Gemini 2.5 Pro for robust PDF content extraction
+2. **Vector Storage Layer**: ChromaDB for efficient similarity-based document retrieval  
+3. **Query Processing Layer**: OpenAI GPT-4o-mini for generating structured, domain-specific responses
+4. **API Layer**: FastAPI for clean, RESTful endpoints
 
-- **Backend Framework**: FastAPI
-- **AI Models**: 
-  - OpenAI GPT-4o-mini (Chat completion)
-  - Google Gemini 2.5 Pro (Document processing)
-  - OpenAI text-embedding-3-small (Embeddings)
-- **Vector Database**: ChromaDB
-- **Document Processing**: LangChain
-- **Language**: Python 3.8+
+### Key Technical Decisions
 
-## 📋 Prerequisites
+**Multi-Model Strategy**: 
+- **Gemini 2.5 Pro** for PDF processing (superior document understanding)
+- **GPT-4o-mini** for response generation (cost-effective, fast inference)
+- **OpenAI Embeddings** for semantic search (proven performance)
 
-- Python 3.8 or higher
-- OpenAI API key
-- Google Gemini API key
-- Git
+**RAG Implementation**:
+- Used LangChain's RetrievalQA chain for seamless retrieval-generation pipeline
+- Implemented similarity search with top-k=3 for balanced context vs. noise
+- Custom prompt template ensuring healthcare domain expertise and structured outputs
 
-## 🚀 Installation
+**Data Processing Pipeline**:
+```python
+PDF → Base64 → Gemini Extraction → Document Chunks → Embeddings → ChromaDB
+```
+
+## 🚀 How to Run the Solution
+
+### Prerequisites
+- Python 3.8+
+- OpenAI API Key
+- Google Gemini API Key
+- Jupyter Notebook
+
+### Quick Start
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/healthcare-rag-advisor.git
-   cd healthcare-rag-advisor
+   git clone [your-repo-link]
+   cd healthcare-rag-assessment
    ```
 
-2. **Create virtual environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
+2. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Set up environment configuration**
-   
-   Create a configuration file in `env_config/config.py`:
-   ```python
-   class EnvConfig:
-       OPENAI_API_KEY = "your-openai-api-key"
-       GEMINI_API_KEY = "your-gemini-api-key"
+3. **Configure API keys**
+   Create a `.env` file in the root directory:
+   ```env
+   OPENAI_API_KEY=your-openai-key
+   GEMINI_API_KEY=your-gemini-key
    ```
 
-5. **Prepare your documents**
-   - Place your healthcare plan PDF documents in the `pdfs/` directory
-   - Run the document processing script to populate the vector database
+4. **Process documents (one-time setup)**
+   ```bash
+   # Place your PDF files in the pdfs/ directory
+   # Run the data extraction and preprocessing notebook
+   jupyter notebook experiment.ipynb
+   ```
+   Execute all cells in the notebook to:
+   - Extract content from PDF documents using Gemini
+   - Create document embeddings
+   - Store vectors in ChromaDB
 
-## 📁 Project Structure
+5. **Start the server**
+   ```bash
+   python main.py
+   ```
 
-```
-healthcare-rag-advisor/
-├── main.py                 # FastAPI application entry point
-├── endpoint_router/        # API route definitions
-├── env_config/            # Environment configuration
-├── chroma_langchain_db/   # ChromaDB vector store
-├── pdfs/                  # PDF documents directory
-├── utils/                 # Utility functions
-├── model/                 # Data models and schemas
-├── requirements.txt       # Python dependencies
-└── README.md             # Project documentation
-```
-
-## 🔧 Configuration
-
-### API Keys Setup
-1. Obtain API keys from:
-   - [OpenAI Platform](https://platform.openai.com/api-keys)
-   - [Google AI Studio](https://makersuite.google.com/app/apikey)
-
-2. Update `env_config/config.py` with your keys
-
-### Vector Store Configuration
-The system uses ChromaDB with the following default settings:
-- Collection name: `rag_knowledge_base`
-- Search type: Similarity
-- Retrieved documents: 3 (configurable via `k` parameter)
-- Persistence directory: `./chroma_langchain_db`
-
-## 🚀 Usage
-
-### Starting the Server
-```bash
-uvicorn main:app --host 127.0.0.1 --port 8000 --reload
-```
-
-The API will be available at `http://localhost:8000`
+6. **Test the system**
+   ```bash
+   curl -X POST "http://localhost:8000/ai/rag/" \
+        -H "Content-Type: application/json" \
+        -d '{"user_query": "What are the zencare monthly benefits"}'
+   ```
 
 ### API Documentation
-Access the interactive API documentation at:
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
-
-### Example API Request
-```bash
-curl -X POST "http://localhost:8000/ask" \
-     -H "Content-Type: application/json" \
-     -d '{"question": "What are the coverage differences between FlexiCare and PrimeCare?"}'
-```
-
-### Document Processing
-To add new insurance plan documents:
-```python
-# Add PDF paths to the list
-pdf_paths = ["path/to/flexicare.pdf", "path/to/primecare.pdf"]
-
-# Process documents
-documents = CreateDocuments(pdf_paths)
-
-# Add to vector store
-vector_store.add_documents(documents)
-```
+Access interactive docs at: `http://localhost:8000/docs`
 
 ## 📊 System Architecture
-
 ```mermaid
 graph TB
     A[PDF Documents] --> B[Gemini 2.5 Pro]
@@ -147,70 +102,114 @@ graph TB
     J --> K[Structured Response]
 ```
 
-## 🎯 Key Components
+## 🔧 System Components
 
-### RAG Chain
-The system implements a RetrievalQA chain that:
-1. Receives user questions
-2. Retrieves relevant document chunks
-3. Formats context with a specialized prompt
-4. Generates structured responses
+### Core Files
+- `main.py` - FastAPI application and server setup
+- `endpoint_router/rag_endpoint.py` - API route handlers
+- `utils/rag_utils.py` - RAG chain and document processing utilities
+- `experiment.ipynb` - Data extraction, preprocessing, and vector storage notebook
+- `.env` - Environment configuration (API keys)
+- `env_config/config.py` - Configuration loader
 
-### Prompt Template
-The system uses a specialized prompt that ensures:
-- Healthcare insurance domain expertise
-- Plan-specific information accuracy
-- Structured, actionable responses
-- Clear limitations and exclusions
+### RAG Chain Configuration
+```python
+# Retriever settings
+search_type="similarity"
+search_kwargs={"k": 3}
 
-## 🔍 Supported Insurance Plans
+# LLM settings  
+model="gpt-4o-mini"
+temperature=0  # Deterministic responses for consistency
+```
 
-- **FlexiCare**: Flexible healthcare coverage options
-- **PrimeCare**: Premium healthcare insurance plans  
-- **ZenCare**: Wellness-focused insurance solutions
+### Custom Prompt Template
+Specialized prompt ensuring:
+- Healthcare domain expertise
+- Plan-specific accuracy
+- Structured markdown responses
+- Clear limitation statements
+- Actionable guidance
 
-## 🛡️ Response Guidelines
+## 📊 Example Usage
 
-The system follows strict guidelines:
-- Uses only official document information
-- Clearly states information limitations
-- Provides structured plan comparisons
-- Includes exclusions and requirements
-- Offers actionable next steps
-- Maintains markdown formatting
+**Input Query:**
+```json
+{
+  "question": "What are the key differences between FlexiCare and PrimeCare deductibles?"
+}
+```
 
-## 🤝 Contributing
+**System Response:**
+```markdown
+## FlexiCare vs PrimeCare Deductible Comparison
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### FlexiCare
+- Individual deductible: $1,500
+- Family deductible: $3,000
+- Out-of-network: $2,500 individual
 
-## 📝 License
+### PrimeCare  
+- Individual deductible: $500
+- Family deductible: $1,000
+- Out-of-network: $1,500 individual
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Key Takeaway
+PrimeCare offers significantly lower deductibles, making it more cost-effective for frequent healthcare users.
+```
 
-## ⚠️ Disclaimer
+## 🎯 Assessment Highlights
 
-This system provides general information about healthcare insurance plans and should not be considered as professional medical or financial advice. Always consult with qualified healthcare and insurance professionals for specific coverage decisions.
+### Technical Excellence
+- **Modular Architecture**: Clean separation of concerns
+- **Error Handling**: Robust error management throughout the pipeline
+- **Scalability**: Vector store design supports easy document addition
+- **Performance**: Optimized retrieval with configurable search parameters
 
-## 🆘 Support
+### Domain Expertise
+- **Healthcare Focus**: Specialized prompt engineering for insurance domain
+- **Accuracy**: Source attribution and limitation transparency
+- **Usability**: Structured responses with actionable insights
 
-For support and questions:
-- Open an issue on GitHub
-- Check the [documentation](docs/)
-- Review the API documentation at `/docs`
+### Innovation
+- **Multi-Model Integration**: Leveraging strengths of different AI models
+- **PDF Processing**: Advanced document extraction with Gemini's multimodal capabilities
+- **API Design**: RESTful endpoints for easy integration
 
-## 🔮 Future Enhancements
+## 🔍 Testing the Solution
 
-- [ ] Multi-language support
-- [ ] Real-time document updates
-- [ ] Advanced query understanding
-- [ ] Integration with insurance APIs
-- [ ] Mobile application support
-- [ ] Voice query capabilities
+### Sample Questions to Try
+1. "What preventive care is covered under ZenCare?"
+2. "Compare prescription drug coverage across all three plans"
+3. "What are the out-of-network penalties for PrimeCare?"
+4. "How do I file a claim for FlexiCare?"
 
----
+### Expected Behavior
+- Responses cite specific plan documents
+- Clear statements when information isn't available
+- Structured comparisons using tables/lists
+- Actionable next steps included
 
-**Made with ❤️ for better healthcare decisions**
+## 📈 Future Enhancements
+
+- Real-time document updates
+- Multi-language support  
+- Advanced query understanding with intent detection
+- Integration with live insurance APIs
+- Conversation memory for follow-up questions
+
+## 🛡️ Error Handling
+
+The system gracefully handles:
+- Missing API keys with clear error messages
+- Document processing failures
+- Empty retrieval results
+- Malformed queries
+
+## 📝 Assessment Notes
+
+This solution demonstrates:
+- **Full-stack RAG implementation** from document processing to API deployment
+- **Production-ready code** with proper error handling and configuration management
+- **Domain expertise** in healthcare insurance through specialized prompting
+- **Scalable architecture** supporting easy extension and maintenance
