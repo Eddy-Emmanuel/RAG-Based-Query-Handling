@@ -69,6 +69,8 @@ PDF → Base64 → Gemini Extraction → Document Chunks → Embeddings → Chro
    - Extract content from PDF documents using Gemini
    - Create document embeddings
    - Store vectors in ChromaDB
+     
+**Though this has already been done while i was populating the db.**
 
 5. **Start the server**
    ```bash
