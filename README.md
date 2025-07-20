@@ -158,5 +158,3 @@ Specialized prompt ensuring:
 PrimeCare offers significantly lower deductibles, making it more cost-effective for frequent healthcare users.
 ```
 ---
-
-**Submission Ready**: This repository contains a complete, runnable RAG system that can be deployed and tested immediately following the setup instructions above.
