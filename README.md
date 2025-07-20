@@ -37,7 +37,6 @@ PDF → Base64 → Gemini Extraction → Document Chunks → Embeddings → Chro
 - Python 3.11.9
 - OpenAI API Key
 - Google Gemini API Key
-- Jupyter Notebook
 
 ### Quick Start
 
